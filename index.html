@@ -6,28 +6,54 @@
 	<body>
 		<script src="lib/three/build/three.min.js"></script>
 		<script>
+			// THREE.PerspectiveCamera.prototype.setRotateX = function (deg) {
+			//     if (typeof (deg) == 'number' && parseInt(deg) == deg) {
+			//         this.rotation.x = deg * (Math.PI / 180);
+			//     }
+			// };
+			// THREE.PerspectiveCamera.prototype.setRotateY = function (deg) {
+			//     if (typeof (deg) == 'number' && parseInt(deg) == deg) {
+			//         this.rotation.y = deg * (Math.PI / 180);
+			//     }
+			// };
+			// THREE.PerspectiveCamera.prototype.setRotateZ = function (deg) {
+			//     if (typeof (deg) == 'number' && parseInt(deg) == deg) {
+			//         this.rotation.z = deg * (Math.PI / 180);
+			//     }
+			// };
+			// THREE.PerspectiveCamera.prototype.getRotateX = function () {
+			//     return Math.round(this.rotation.x * (180 / Math.PI));
+			// };
+			// THREE.PerspectiveCamera.prototype.getRotateY = function () {
+			//     return Math.round(this.rotation.y * (180 / Math.PI));
+			// };
+			// THREE.PerspectiveCamera.prototype.getRotateZ = function () {
+			//     return Math.round(this.rotation.z * (180 / Math.PI));
+			// };
+
+			function toBox(x, y, z) {
+			    document.getElementById('box').innerHTML = 'X: ' + x + '<br />Y: ' + y + '<br />Z: ' + z;
+			}
+			const KEYUP    = 38;        // up key
+	        const KEYDOWN  = 40;        // down key
+	        const KEYLEFT  = 37;        // left key
+	        const KEYRIGHT = 39;        // right key
+	        const VIEW_INCREMENT    = 1;
+
+
 			var scene = new THREE.Scene();
 			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+			var controls = new THREE.TrackballControls(camera);
+			var clock = new THREE.Clock();
 
 			var renderer = new THREE.WebGLRenderer();
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			document.body.appendChild(renderer.domElement);
 
-			// var geometry = new THREE.CubeGeometry(1,1,1);
-			// var material = new THREE.MeshLambertMaterial({color: 0xff0000});
-			// var cube = new THREE.Mesh(geometry, material);
-			// scene.add(cube);
-
-			// var cyl_geo = new THREE.CylinderGeometry(1,1,1,100);
-			// var cyl_mat = new THREE.MeshLambertMaterial({color: 0x0000ff, wireframe: false});
-			// var cylinder = new THREE.Mesh(cyl_geo, cyl_mat);
-			// scene.add(cylinder);
-
-			var sphere = new THREE.Mesh( new THREE.SphereGeometry(2,16,12),new THREE.MeshLambertMaterial( { color: 0x2D303D, wireframe: true, shading: THREE.FlatShading } ));
-            var cylinder = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 200, 16, 4, false ),new THREE.MeshLambertMaterial( { color: 0x2D303D, wireframe: true, shading: THREE.FlatShading } ));
-            cylinder.position.y = -100;
-            scene.add(sphere);
-            scene.add(cylinder);
+			var geometry = new THREE.CubeGeometry(1,1,1);
+			var material = new THREE.MeshLambertMaterial({color: 0xff0000});
+			var cube = new THREE.Mesh(geometry, material);
+			scene.add(cube);
 
 			var spotLight = new THREE.SpotLight( 0xffffff );
 			spotLight.position.set( 10, 10, 10 );
@@ -43,18 +69,45 @@
 
 			scene.add( spotLight );
 
+			// camera.position.x = -1;
+			// camera.position.y = -1;
 			camera.position.z = 3;
 
-			var render = function () {
-				requestAnimationFrame(render);
+			// var render = function () {
+			// 	requestAnimationFrame(render);
 
-				cube.rotation.x += 0.1;
-				cube.rotation.y += 0.1;
+			// 	// cube.rotation.x += 0.1;
+			// 	// cube.rotation.y += 0.1;
 
-				renderer.render(scene, camera);
-			};
+			// 	renderer.render(scene, camera);
+			// };
 
-			render();
+			requestAnimationFrame(update);
+			var update = function(){
+				requestAnimationFrame(update);
+				var delta = clock.getDelta();
+				controls.update(delta);
+				render();
+				document.addEventListener("keydown", function(evt){
+					var keyCode = evt.keyCode;
+					switch(keyCode) {
+						case KEYUP:
+							if ( camera.getRotateX() < 90 )
+		                        camera.setRotateX( camera.getRotateX() + VIEW_INCREMENT );
+		                    break;
+						case KEYLEFT:
+							camera.setRotateY( camera.getRotateY() + VIEW_INCREMENT );
+							break;
+						case KEYRIGHT:
+							camera.setRotateY( camera.getRotateY() - VIEW_INCREMENT );
+		                    break;
+					}
+
+					toBox( camera.getRotateX(), camera.getRotateY(), camera.getRotateZ() );
+				});
+			}
+
+
 		</script>
 	</body>
 </html>
