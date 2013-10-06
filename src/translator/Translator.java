@@ -4,31 +4,36 @@ import java.util.*;
 
 public class Translator {
 	
-	private String message;
-	private String select;
-	private String move;
-	private String unselect;
-	private String rotate;
-	private String zoom;
-	private ArrayList<String> messages = new ArrayList<String>(); 
 	
-	public Translator(String messageType, String selectCommand, String moveCommand, String unselectCommand, 
-			String rotateCommand, String zoomCommand) {
+	private final Map<String, String[]> messages;
+	
+	public Translator(Map<String, String[]> mapOfMessages) {
+		messages = mapOfMessages;
 		
-		this.message = messageType;
-		this.select = selectCommand;
-		this.move = moveCommand;
-		this.unselect = messageType;
-		this.rotate = selectCommand;
-		this.zoom = moveCommand;
+	}
+
+	public void translateCameraChange(String[] strings) {
+		// TODO Auto-generated method stub
 		
-		messages.add(message);
-		messages.add(select);
-		messages.add(move);
-		messages.add(unselect);
-		messages.add(rotate);
-		messages.add(zoom);
+	}
+
+	public void translateZoom(String[] strings) {
+		// TODO Auto-generated method stub
 		
+	}
+
+	public void translateRotate(String[] strings) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void translateMove(String[] strings) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void translateCursor(String[] strings) {
+		// TODO Auto-generated method stub
 		
 	}
 	

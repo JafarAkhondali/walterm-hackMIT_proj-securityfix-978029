@@ -47,14 +47,8 @@ public class ServerStart {
 	}
 	
 	/**
-	 * Takes in the socket and reads the message. Sends the message to the translator
-	 * each term in the message should be separated by the '\n' character
-	 * 1st line - the message type, {POST, GET, DELETE, etc or something like that}
-	 * 2nd line - selects the block object specified by coordinates
-	 * 3rd line - coordinates of where to move it {from(x,y), to(x,y)}
-	 * 4th line - unselects the block obj specified by coordinates
-	 * 5th line - coordinates on how much to rotate by; either in format (x,y) or (r, theta) you choose
-	 * 6th line - coordinates on how to zoom. 
+	 * Takes in the socket and reads the message. Sends the message to the translator and based on response
+	 * send it to either web, or opencv
 	 * @param socket
 	 * @throws IOException 
 	 */
@@ -63,50 +57,84 @@ public class ServerStart {
 				socket.getInputStream()));
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		
-		//add them to a list
-		String[] messages = new String[6];
-		String messageType = in.readLine();
-		String selectCommand = in.readLine();
-		String moveCommand = in.readLine();
-		String unselectCommand = in.readLine();
-		String rotateCommand = in.readLine();
-		String zoomCommand = in.readLine();
+		//grab message from client
+		String message = in.readLine();
 		
-		messages[0] = messageType;
-		messages[1] = selectCommand;
-		messages[2] = moveCommand;
-		messages[3] = unselectCommand;
-		messages[4] = rotateCommand;
-		messages[5] = zoomCommand;
+		//process it
+		Map<String, String[]> processedMessage = processMessage(message);
 		
-		
-		
-		if (validMessage(messages)) {
-			Translator tm = new Translator(messageType, selectCommand, moveCommand, unselectCommand, rotateCommand, zoomCommand);
-		}
-	}
-	
-	public boolean validMessage(String[] messages) {
-		boolean valid = false;
-		
-		for (int i=0; i<messages.length; i++) {
-			if (i == 0) {
-				if (!(messages[i] == "POST" ||  messages[i] == "GET")) {
-					valid = false;
+		if (isValid(processedMessage)) {//if it's valid...
+			//translate that shit!
+			Translator tm = new Translator(processedMessage);
+			for (int i=0; i<processedMessage.size(); i++) {
+				switch (processedMessage.get(i)[0]) { // based on the status type, do one of the following
+					case "cursor": tm.translateCursor(processedMessage.get(i));
+						break;
+						
+					case "move": tm.translateMove(processedMessage.get(i));
+						break;
+					case "rotate": tm.translateRotate(processedMessage.get(i));
+						break;
+					case "zoom": tm.translateZoom(processedMessage.get(i));
+						break;
+					case "camera-change": tm.translateCameraChange(processedMessage.get(i));
+						break;
+					default: out.println("Invalid action! Closing the socket");
+						socket.close();
+						break;
 				}
 			}
-			else {
-				if (messages[i].matches("")){
-					valid = true;
-				}
-				else {
-					valid = false;
-				}
+			//grab translation
+			
+			
+			//and send that shit back
+			
+			
+		}
+
+	}
+
+	/*
+	 * METHODS TO PROCESS AND CHECK VALIDITY OF THE INPUT
+	 */
+	
+	public Map<String, String[]> processMessage(String messages) { //temporarily returns nothing
+		String[] arrOfFrames = messages.split("\\s*POST\\s*");
+		List<String> finalFrames = new ArrayList<String>();
+		
+		//remove that damn leading empty string in the array
+		for (String frame : arrOfFrames) {
+			if (!(frame.equals(""))) {
+				finalFrames.add(frame);
+			}
+		}
+		
+		//collect the commands and put them in a map
+		Map<String, String[]> processedCommands = new LinkedHashMap<String, String[]>();
+		for (int i=0; i<finalFrames.size(); i++) {
+			String[] commands = finalFrames.get(i).split(",");
+			processedCommands.put(String.valueOf(i), commands);
+		}
+		
+		return processedCommands;
+		
+	}
+	
+	public boolean isValid(Map<String, String[]> mapOfCommands) {
+		boolean valid = false;
+		ArrayList<String> validCommands = new ArrayList<String>();
+		validCommands.add("cursor");
+		validCommands.add("move");
+		validCommands.add("rotate");
+		validCommands.add("zoom");
+		validCommands.add("camera-change");
+		for (int i=0; i<mapOfCommands.size(); i++) {
+			if (validCommands.contains(mapOfCommands.get(String.valueOf(i))[0])) {
+				valid = true;
 			}
 		}
 		
 		return valid;
-		
 	}
 	
 
