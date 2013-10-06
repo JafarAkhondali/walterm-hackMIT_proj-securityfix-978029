@@ -12,8 +12,10 @@ import java.util.*;
 public class ServerStart {
 	
 	private final ServerSocket serverSocket;
+	private String previousState = "nothing"; 
 	
 	public ServerStart(int port) throws IOException {
+		System.out.println("hi");
 		serverSocket = new ServerSocket(port);
 	}
 	
@@ -62,34 +64,33 @@ public class ServerStart {
 		
 		//process it
 		Map<String, String[]> processedMessage = processMessage(message);
+	
 		
 		if (isValid(processedMessage)) {//if it's valid...
-			//translate that shit!
-			Translator tm = new Translator(processedMessage);
+			//translate that shit and respond!
+			Translator tm = new Translator(out);
 			for (int i=0; i<processedMessage.size(); i++) {
-				switch (processedMessage.get(i)[0]) { // based on the status type, do one of the following
-					case "cursor": tm.translateCursor(processedMessage.get(i));
+//				System.out.println(processedMessage.get(String.valueOf(i))[0]);
+				switch (processedMessage.get(String.valueOf(i))[0]) { // based on the status type, do one of the following
+					case "cursor": tm.translateCursor(processedMessage.get(String.valueOf(i)));
 						break;
-						
-					case "move": tm.translateMove(processedMessage.get(i));
+					case "move": tm.translateMove(processedMessage.get(String.valueOf(i)));
 						break;
-					case "rotate": tm.translateRotate(processedMessage.get(i));
+					case "rotate": tm.translateRotate(processedMessage.get(String.valueOf(i)));
 						break;
-					case "zoom": tm.translateZoom(processedMessage.get(i));
+					case "zoom": tm.translateZoom(processedMessage.get(String.valueOf(i)));
 						break;
-					case "camera-change": tm.translateCameraChange(processedMessage.get(i));
+					case "camera-change": tm.translateCameraChange(processedMessage.get(String.valueOf(i)));
 						break;
-					default: out.println("Invalid action! Closing the socket");
+					default: out.println("Invalid action! Closing the socket"); //maybe i shouldn't close it. that could fuck
+					//everything up...
 						socket.close();
 						break;
 				}
 			}
-			//grab translation
-			
-			
-			//and send that shit back
-			
-			
+
+		} else {
+			System.out.println("failed");
 		}
 
 	}
@@ -130,6 +131,8 @@ public class ServerStart {
 		validCommands.add("camera-change");
 		for (int i=0; i<mapOfCommands.size(); i++) {
 			if (validCommands.contains(mapOfCommands.get(String.valueOf(i))[0])) {
+//				System.out.println("here");
+//				System.out.println(mapOfCommands.get(String.valueOf(i))[0]);
 				valid = true;
 			}
 		}
