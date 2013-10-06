@@ -33,6 +33,9 @@ public class ColorTracker {
 		Mat frame = new Mat();
 		camera.read(frame);
 		Highgui.imwrite("camera_pic.jpg", frame);
+		Mat contrast = new Mat();
+		frame.convertTo(contrast, -1, 1.5);
+		Highgui.imwrite("camera__pic_contrast.jpg", contrast);
 		Mat hsv = new Mat();
 		Imgproc.cvtColor(frame, hsv, Imgproc.COLOR_BGR2HSV);
 		Mat hsvThresh = new Mat();
@@ -42,8 +45,12 @@ public class ColorTracker {
 		Mat mat = new Mat();
 		hsvThresh.convertTo(mat, CvType.CV_32SC1);
 		Imgproc.findContours(mat, contours, new Mat(), Imgproc.RETR_FLOODFILL, Imgproc.CHAIN_APPROX_SIMPLE);
-		Mat contourImg = new Mat();
-		Imgproc.drawContours(contourImg, contours, -1, new Scalar(0, 0, 255));
+		Mat contourImg = new Mat(mat.size(), mat.type());
+		System.out.println(contours.get(0).type());
+		for(int i = 0; i< contours.size(); i++){
+			Imgproc.drawContours(contourImg, contours, -1, new Scalar(255, 255, 255));
+		}
+		
 		Highgui.imwrite("camera_pic_red_contours.jpg", contourImg);
 		camera.release();
 	}
