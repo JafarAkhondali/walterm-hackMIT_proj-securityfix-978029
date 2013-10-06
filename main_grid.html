@@ -397,14 +397,24 @@
 
 					}
 
+					function switchOnObject(obj){
+						
+					}
 
+					render();	
 			var getData = function(){
 				var xml = new XMLHttpRequest();
 				var url = "http://hackmit-blockbuilding.appspot.com/blockbuilding";
 				xml.open("GET", url, true);
 				xml.onreadystatechange = function(){
 					if(xml.readyState === 4 && xml.status === 200){
-						console.log(xml.responseText);
+						var text = xml.responseText;
+						while(text.indexOf("'") != -1){
+							text = text.replace("'", '"');
+						}
+
+						var obj = JSON.parse(text);
+
 						render();
 					}
 				};
