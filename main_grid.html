@@ -22,14 +22,7 @@
 
 		<script type="text/javascript">
 
-			
-
-			var xml = new XMLHttpRequest();
-			var url = "URL GOES HERE";
-			xml.open("GET", url, true);
-			xml.onreadystatechange = function(){
-				if(xml.readyState === 4 && xml.status === 200){
-					var container, interval,
+			var container, interval,
 					camera, scene, renderer,
 					projector, plane, cube, linesMaterial,
 					color = 0,colors = [ 0xDF1F1F, 0xDFAF1F, 0x80DF1F, 0x1FDF50, 0x1FDFDF, 0x1F4FDF, 0x7F1FDF, 0xDF1FAF, 0xEFEFEF, 0x303030 ],
@@ -400,12 +393,25 @@
 							i ++;
 						}
 
-						render();
+						
 
 					}
-				}
-			};
-			xml.send(null);
+
+
+			var getData = function(){
+				var xml = new XMLHttpRequest();
+				var url = "http://hackmit-blockbuilding.appspot.com/blockbuilding";
+				xml.open("GET", url, true);
+				xml.onreadystatechange = function(){
+					if(xml.readyState === 4 && xml.status === 200){
+						console.log(xml.responseText);
+						render();
+					}
+				};
+				xml.send(null);
+			}
+
+			setInterval(getData, 1000);
 
 		</script>
 

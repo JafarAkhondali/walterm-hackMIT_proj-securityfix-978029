@@ -7,6 +7,11 @@
 			var xml = new XMLHttpRequest();
 			xml.onreadystatechange = function(){
 				if(xml.readyState == 4 && xml.status === 200){
+					// {'response':{
+					// 	  'action' : 'click',
+					// 	  'x':null,
+					//    'y':null
+				    //  }
 					var div = document.getElementById("test");
 					var text = xml.responseText;
 					while(text.indexOf("'") != -1){
