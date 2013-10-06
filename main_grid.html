@@ -24,11 +24,11 @@
 
 			
 
-			// var xml = new XMLHttpRequest();
-			// var url = "URL GOES HERE";
-			// xml.open("GET", url, true);
-			// xml.onreadystatechange = function(){
-			// 	if(xml.readyState === 4 && xml.status === 200){
+			var xml = new XMLHttpRequest();
+			var url = "URL GOES HERE";
+			xml.open("GET", url, true);
+			xml.onreadystatechange = function(){
+				if(xml.readyState === 4 && xml.status === 200){
 					var container, interval,
 					camera, scene, renderer,
 					projector, plane, cube, linesMaterial,
@@ -403,9 +403,9 @@
 						render();
 
 					}
-				// }
-			// };
-			// xml.send(null);
+				}
+			};
+			xml.send(null);
 
 		</script>
 
