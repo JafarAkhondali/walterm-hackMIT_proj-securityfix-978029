@@ -12,7 +12,8 @@ import java.util.*;
 public class ServerStart {
 	
 	private final ServerSocket serverSocket;
-	private String previousState = "nothing"; 
+	private String prevX;
+	private String prevY;
 	
 	public ServerStart(int port) throws IOException {
 		System.out.println("hi");
@@ -70,20 +71,18 @@ public class ServerStart {
 			//translate that shit and respond!
 			Translator tm = new Translator(out);
 			for (int i=0; i<processedMessage.size(); i++) {
-//				System.out.println(processedMessage.get(String.valueOf(i))[0]);
 				switch (processedMessage.get(String.valueOf(i))[0]) { // based on the status type, do one of the following
-					case "cursor": tm.translateCursor(processedMessage.get(String.valueOf(i)));
+					case "cursor": 
+						prevX = processedMessage.get(String.valueOf(i))[1];
+						prevY = processedMessage.get(String.valueOf(i))[2];
+						tm.translateCursor(processedMessage.get(String.valueOf(i))[1],processedMessage.get(String.valueOf(i))[2]);
 						break;
-					case "move": tm.translateMove(processedMessage.get(String.valueOf(i)));
+					case "click": 
+						tm.translateClick(prevY, prevY);
 						break;
-					case "rotate": tm.translateRotate(processedMessage.get(String.valueOf(i)));
-						break;
-					case "zoom": tm.translateZoom(processedMessage.get(String.valueOf(i)));
-						break;
-					case "camera-change": tm.translateCameraChange(processedMessage.get(String.valueOf(i)));
-						break;
-					default: out.println("Invalid action! Closing the socket"); //maybe i shouldn't close it. that could fuck
-					//everything up...
+					default: 
+						out.println("Invalid action! Closing the socket"); //maybe i shouldn't close it. that could fuck
+						//everything up...
 						socket.close();
 						break;
 				}
@@ -125,10 +124,7 @@ public class ServerStart {
 		boolean valid = false;
 		ArrayList<String> validCommands = new ArrayList<String>();
 		validCommands.add("cursor");
-		validCommands.add("move");
-		validCommands.add("rotate");
-		validCommands.add("zoom");
-		validCommands.add("camera-change");
+		validCommands.add("click");
 		for (int i=0; i<mapOfCommands.size(); i++) {
 			if (validCommands.contains(mapOfCommands.get(String.valueOf(i))[0])) {
 //				System.out.println("here");
