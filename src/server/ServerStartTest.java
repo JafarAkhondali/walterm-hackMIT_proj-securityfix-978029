@@ -21,8 +21,8 @@ public class ServerStartTest {
 		
 		final int DEFAULT_PORT = 3003;
 		ServerStart server = new ServerStart(DEFAULT_PORT);
-		String message = " POST STATUS,X,Y POST STATUS,X,Y POST STATUS,X,Y";
-//		server.processMessage(message);
+//		String message = " POST cursor,1,1";
+		server.serve();
 
 	}
 
