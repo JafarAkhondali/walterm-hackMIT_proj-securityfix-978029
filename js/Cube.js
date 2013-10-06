@@ -11,6 +11,7 @@ var Cube = function (width, height, depth) {
 	height_half = height / 2,
 	depth_half = depth / 2;
 
+	//Drawing the mesh with specificed vertices
 	v(  width_half,  height_half, -depth_half );
 	v(  width_half, -height_half, -depth_half );
 	v( -width_half, -height_half, -depth_half );
@@ -20,6 +21,7 @@ var Cube = function (width, height, depth) {
 	v( -width_half, -height_half,  depth_half );
 	v( -width_half,  height_half,  depth_half );
 
+	//And the faces
 	f4( 0, 1, 2, 3 );
 	f4( 4, 7, 6, 5 );
 	f4( 0, 4, 5, 1 );
