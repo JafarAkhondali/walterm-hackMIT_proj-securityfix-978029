@@ -397,31 +397,93 @@
 
 					}
 
+					function cvClick(x,y){
+
+						var percentX = 1 - parseFloat(x);
+						var percentY = parseFloat(y);
+						var posX = percentX * window.innerWidth;
+						var posY = percentY * window.innerHeight;
+
+						// onMouseDownPosition.x = posX - onMouseDownPosition.x;
+						// onMouseDownPosition.y = posY - onMouseDownPosition.y;
+
+						// if ( onMouseDownPosition.length() > 5 ) {
+						// 	return;
+						// }
+
+						var intersect, intersects = ray.intersectScene( scene );
+
+						if ( intersects.length > 0 ) {
+
+							intersect = intersects[ 0 ].object == brush ? intersects[ 1 ] : intersects[ 0 ];
+
+							if ( intersect ) {
+
+
+								var position = new THREE.Vector3().add( intersect.point, intersect.object.matrixRotation.transform( intersect.face.normal.clone() ) );
+
+								var voxel = new THREE.Mesh( cube, new THREE.MeshColorFillMaterial( colors[ color ] ) );
+								voxel.position.x = Math.floor( position.x / 50 ) * 50 + 25;
+								voxel.position.y = Math.floor( position.y / 50 ) * 50 + 25;
+								voxel.position.z = Math.floor( position.z / 50 ) * 50 + 25;
+								voxel.overdraw = true;
+								scene.addObject( voxel );
+
+							}
+
+						}
+
+						interact();
+						render();
+					}
+
+					function cvCursor(x,y){
+						var percentX = 1 - parseFloat(x);
+						var percentY = parseFloat(y);
+						var posX = percentX * window.innerWidth;
+						var posY = percentY * window.innerHeight;
+						mouse3D = projector.unprojectVector( new THREE.Vector3( ( posX / renderer.domElement.width ) * 2 - 1, - ( posY / renderer.domElement.height ) * 2 + 1, 0.5 ), camera );
+						ray.direction = mouse3D.subSelf( camera.position ).normalize();
+
+						interact();
+						render();
+
+					}
+
 					function switchOnObject(obj){
-						
+						switch(obj.response.action){
+							case "click":
+								cvClick(obj.response.x, obj.response.y);
+								break;
+							case "cursor":
+								cvCursor(obj.response.x, obj.response.y);
+								break;
+							default: //the case where there was no action?
+								break;
+						}
 					}
 
 					render();	
-			var getData = function(){
-				var xml = new XMLHttpRequest();
-				var url = "http://hackmit-blockbuilding.appspot.com/blockbuilding";
-				xml.open("GET", url, true);
-				xml.onreadystatechange = function(){
-					if(xml.readyState === 4 && xml.status === 200){
-						var text = xml.responseText;
-						while(text.indexOf("'") != -1){
-							text = text.replace("'", '"');
-						}
+					var getData = function(){
+						var xml = new XMLHttpRequest();
+						var url = "./test.txt";
+						xml.open("GET", url, true);
+						xml.onreadystatechange = function(){
+							if(xml.readyState === 4 && xml.status === 200){
+								var text = xml.responseText;
+								while(text.indexOf("'") != -1){
+									text = text.replace("'", '"');
+								}
 
-						var obj = JSON.parse(text);
+								var obj = JSON.parse(text);
 
-						render();
+								switchOnObject(obj);
+							}
+						};
+						xml.send(null);
 					}
-				};
-				xml.send(null);
-			}
 
-			setInterval(getData, 1000);
+					setInterval(getData, 1000);
 
 		</script>
 
