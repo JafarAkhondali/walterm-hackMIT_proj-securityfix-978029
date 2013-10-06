@@ -2,13 +2,31 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV-2.4.6">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/OpenCV-2.4.6/build/java/x64"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-annotations-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-client-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-continuation-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-deploy-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-http-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-io-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-jaas-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-jmx-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-jndi-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-plus-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-proxy-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-rewrite-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-security-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-server-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-servlet-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-servlets-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-util-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-webapp-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/jetty-xml-9.0.6.v20130930.jar"/>
+	<classpathentry kind="lib" path="/Users/michellejohnson/Downloads/jetty-distribution-9.0.6.v20130930/lib/servlet-api-3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
