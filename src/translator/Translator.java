@@ -12,36 +12,18 @@ public class Translator {
 		this.out = out;
 	}
 	
-	public void translateCursor(String[] commands) {
-		// TODO Auto-generated method stub
-		System.out.println(commands[0] + ' ' + commands[1] + ' ' + commands[2]);
-		out.println("<html><head><title>Testing</title></head><body><p>"+ commands[0] + ' ' + commands[1] + ' ' + commands[2] +"</p></body></html>");
+	public void translateCursor(String x, String y) {
+		//where to move block!		
+			out.println("{'response':{'x':"+ x +",'y':"+ y +"}}");
+		
 	}
 
 	
-	public void translateMove(String[] commands) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void translateRotate(String[] commands) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void translateZoom(String[] commands) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void translateClick(String prevX, String prevY) {
+		//where to paste the block!		
+			out.println("{'response':{'x':"+ prevX +",'y':"+ prevY +"}}");
 	
-	public void translateCameraChange(String[] commands) {
-		//construct a string to send to java
-		
-		
 	}
-
-
-
 	
 
 	
